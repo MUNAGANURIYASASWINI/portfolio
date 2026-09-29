@@ -8,8 +8,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
 export const siteMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${profile.name} — Quality Analyst & QA Automation Engineer`,
-    template: `%s — ${profile.name}`,
+    default: `${profile.name} | Quality Analyst & QA Automation Engineer`,
+    template: `%s | ${profile.name}`,
   },
   description:
     "Quality Analyst and QA Automation Engineer with hands-on Selenium automation, REST API validation, SQL backend verification, and AI/LLM application testing across CRM, ERP and enterprise applications.",
@@ -30,7 +30,7 @@ export const siteMetadata: Metadata = {
     type: "profile",
     url: SITE_URL,
     siteName: profile.name,
-    title: `${profile.name} — Quality Analyst & QA Automation Engineer`,
+    title: `${profile.name} | Quality Analyst & QA Automation Engineer`,
     description:
       "Selenium automation, REST API validation, SQL backend verification, and AI/LLM application testing across four enterprise applications.",
     images: [
@@ -38,13 +38,13 @@ export const siteMetadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: `${profile.name} — Quality Analyst & QA Automation Engineer`,
+        alt: `${profile.name} | Quality Analyst & QA Automation Engineer`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.name} — Quality Analyst & QA Automation Engineer`,
+    title: `${profile.name} | Quality Analyst & QA Automation Engineer`,
     description:
       "Selenium automation, REST API validation, SQL backend verification, and AI/LLM application testing.",
     images: ["/og.png"],

@@ -24,7 +24,7 @@ export async function generateMetadata({
   const e = getEngagement(slug);
   if (!e) return {};
   return {
-    title: `${e.title} — Case Study`,
+    title: `${e.title} | Case Study`,
     description: e.summary,
     alternates: { canonical: `/work/${e.slug}/` },
   };
