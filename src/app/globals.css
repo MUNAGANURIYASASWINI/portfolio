@@ -1,0 +1,336 @@
+@import "tailwindcss";
+
+/* Class-based dark mode. The blocking script in <head> sets .dark on <html>
+   BEFORE first paint, so there is no flash and no hydration dependency. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   NEUMORPHIC TOKENS — LIGHT
+   Base chosen as #E5E9F0 (cool tint) over #E0E5EC / warm #EDE9E2
+   on measured luminance + hue-tilt data.
+
+   Contrast floor: WCAG 2.2 AA. Ship at AAA (7:1) + APCA Lc >= 75
+   for body text as deliberate margin. Verified with apca-w3.
+   ============================================================ */
+:root {
+  color-scheme: light;
+
+  /* --- surfaces: micro-layered, one hue family ---
+     Pure neumorphism leaves NO hierarchy channel, so the design
+     uses three close tones instead of one flat base. */
+  --nm-base: #e5e9f0; /* page */
+  --nm-raised: #eaeef5; /* cards — 1.046:1 vs base */
+  --nm-inset: #e0e5ed; /* wells / tags — 0.98:1 vs base */
+  --nm-sunken: #dbe0e9; /* code blocks */
+
+  /* --- text ladder ---
+     Colour is bound to RENDERED SIZE, not to role. This is the
+     rule that guarantees legibility on a light clay surface. */
+  --nm-text-strong: #1a1f2a; /* headings    13.54:1 */
+  --nm-text-body: #3a4252; /* 16px+        8.29:1 */
+  --nm-text-meta: #474f60; /* 14px         6.75:1 */
+  --nm-text-muted: #525b6d; /* <=13px       5.61:1 */
+
+  /* --- borders ---
+     Shadows can NEVER satisfy WCAG 1.4.11: composited neumorphic
+     shadows measure only 1.36-1.65:1 vs base, far below the 3:1
+     required for UI component boundaries. Every interactive element
+     therefore carries a hairline border. This is the single most
+     important structural rule in the system. */
+  --nm-border: #c8cfdc; /* decorative dividers only */
+  --nm-border-interactive: #767c8a; /* 3.44:1 — 1.4.11 floor */
+
+  /* --- accent ---
+     Neumorphism is monochromatic, so accent is an AREA accent:
+     CTAs, links, focus, small icons. 1-2% of the page. */
+  --nm-accent: #2f4bc4; /* fills, active, focus  5.90:1 */
+  --nm-accent-text: #1f3fa8; /* links                 7.39:1 */
+  --nm-accent-fill: #2f4bc4;
+  --nm-on-accent: #ffffff; /* 7.18:1 on fill */
+  --nm-accent-wash: #dce2f5;
+
+  /* --- semantic metric colours (QA-scoped) ---
+     Separated by ~9x LUMINANCE, never hue. A naive blue/green/violet
+     triad collapsed to deltaE 0.027 under deuteranopia (near-identical
+     greens) — unusable. Icon shape + text label are the PRIMARY
+     channels; colour is the redundant third. */
+  --nm-volume: #12306b; /* 10.38:1  darkest  — test case throughput */
+  --nm-quality: #0c6b55; /*  5.31:1  mid      — defect reduction  */
+  --nm-impact: #8f5312; /*  5.05:1  lightest — business outcomes  */
+
+  /* --- shadow: light source TOP-LEFT, 135deg, forever ---
+     Highlight = negative offsets, occlusion = positive. */
+  --nm-shadow-raised: -6px -6px 12px rgb(255 255 255 / 0.92),
+    6px 6px 12px rgb(159 178 202 / 0.52);
+  --nm-shadow-raised-sm: -3px -3px 6px rgb(255 255 255 / 0.85),
+    3px 3px 6px rgb(166 182 204 / 0.48);
+  --nm-shadow-inset: inset -4px -4px 8px rgb(255 255 255 / 0.8),
+    inset 4px 4px 8px rgb(162 179 202 / 0.55);
+  --nm-shadow-hover: -9px -9px 18px rgb(255 255 255 / 1),
+    9px 9px 18px rgb(148 168 196 / 0.58);
+  --nm-shadow-active: inset -2px -2px 5px rgb(255 255 255 / 0.7),
+    inset 2px 2px 5px rgb(162 179 202 / 0.5);
+
+  /* Double focus ring. The base-coloured INNER ring isolates the accent
+     so the outer ring always has >=3:1 against something — a single 2px
+     accent outline vanishes on a raised neumorphic surface. */
+  --nm-ring: 0 0 0 2px var(--nm-base), 0 0 0 4px var(--nm-accent);
+}
+
+/* ============================================================
+   NEUMORPHIC TOKENS — DARK
+   Independently derived, NOT inverted. Verified independently:
+   the first draft passed AAA at 7.89:1 but only reached APCA
+   Lc -67.5, so it was lightened to -84.6.
+   ============================================================ */
+.dark {
+  color-scheme: dark;
+
+  --nm-base: #2a2f3a;
+  --nm-raised: #323847; /* 1.144:1 vs base */
+  --nm-inset: #242832; /* 1.099:1 vs base */
+  --nm-sunken: #1e222b;
+
+  --nm-text-strong: #f2f5f9; /* 12.26:1 */
+  --nm-text-body: #dde3ed; /* 10.40:1  Lc -84.6 */
+  --nm-text-meta: #d3dae6; /*  9.54:1 */
+  --nm-text-muted: #c3cbd9; /*  8.21:1 */
+
+  --nm-border: #454c5c;
+  --nm-border-interactive: #8b98b0; /* 4.03:1 */
+
+  --nm-accent: #7e97f9; /* focus, active — 4.90:1 on base */
+  --nm-accent-text: #c6d2ff; /* 8.98 base / 7.85 raised */
+  --nm-accent-fill: #3d5fd9; /* white label 5.47:1 */
+  --nm-on-accent: #ffffff;
+  --nm-accent-wash: #23293a;
+
+  --nm-volume: #7fa8f5; /* 5.63:1 */
+  --nm-quality: #4fc5a2; /* 6.28:1 */
+  --nm-impact: #e0a05c; /* 5.97:1 */
+
+  /* In dark, the highlight drops to ~5% alpha and the shadow does the work. */
+  --nm-shadow-raised: -6px -6px 12px rgb(255 255 255 / 0.045),
+    6px 6px 12px rgb(10 13 18 / 0.55);
+  --nm-shadow-raised-sm: -3px -3px 6px rgb(255 255 255 / 0.035),
+    3px 3px 6px rgb(10 13 18 / 0.5);
+  --nm-shadow-inset: inset -4px -4px 8px rgb(255 255 255 / 0.05),
+    inset 4px 4px 8px rgb(8 11 16 / 0.6);
+  --nm-shadow-hover: -9px -9px 18px rgb(255 255 255 / 0.06),
+    9px 9px 18px rgb(8 11 16 / 0.62);
+  --nm-shadow-active: inset -2px -2px 5px rgb(255 255 255 / 0.04),
+    inset 2px 2px 5px rgb(8 11 16 / 0.55);
+
+  --nm-ring: 0 0 0 2px var(--nm-base), 0 0 0 4px var(--nm-accent);
+}
+
+/* ============================================================
+   TAILWIRING — `inline` keeps var() references live at the use
+   site, so --nm-raised re-resolves inside .dark instead of
+   freezing at build time.
+   ============================================================ */
+@theme inline {
+  --color-base: var(--nm-base);
+  --color-raised: var(--nm-raised);
+  --color-inset: var(--nm-inset);
+  --color-sunken: var(--nm-sunken);
+
+  --color-ink: var(--nm-text-strong);
+  --color-body: var(--nm-text-body);
+  --color-meta: var(--nm-text-meta);
+  --color-muted: var(--nm-text-muted);
+
+  --color-line: var(--nm-border);
+  --color-line-strong: var(--nm-border-interactive);
+
+  --color-accent: var(--nm-accent);
+  --color-accent-text: var(--nm-accent-text);
+  --color-on-accent: var(--nm-on-accent);
+  --color-accent-wash: var(--nm-accent-wash);
+
+  --color-volume: var(--nm-volume);
+  --color-quality: var(--nm-quality);
+  --color-impact: var(--nm-impact);
+
+  --shadow-neu: var(--nm-shadow-raised);
+  --shadow-neu-sm: var(--nm-shadow-raised-sm);
+  --shadow-neu-inset: var(--nm-shadow-inset);
+  --shadow-neu-hover: var(--nm-shadow-hover);
+  --shadow-neu-active: var(--nm-shadow-active);
+  --ring-neu: var(--nm-ring);
+
+  /* Radius scale.
+     HARD RULE: radius must be >= 2x the shadow offset or the shadow
+     clips and goes muddy. 6px offset => min 14px radius. This is why
+     rounded-sm/xs are banned on any shadowed element. */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px; /* controls */
+  --radius-lg: 18px;
+  --radius-xl: 24px; /* cards */
+  --radius-2xl: 32px;
+  --radius-pill: 999px;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 0);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Fixed/sticky header must not overlap anchored content. */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--nm-base);
+    color: var(--nm-text-body);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.625; /* looser than typical — clay has no crisp
+                            edge to anchor the text block */
+    -webkit-font-smoothing: antialiased;
+    transition:
+      background-color var(--duration-base) var(--ease-soft),
+      color var(--duration-base) var(--ease-soft);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+    color: var(--nm-text-strong);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Focus: a HUE shift, never a luminance shift. Soft UI is designed
+     to erase edges, so a grey ring on grey is invisible. The offset is
+     mandatory — an outline flush against the edge is swallowed. */
+  :focus-visible {
+    outline: 2px solid var(--nm-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  ::selection {
+    background: var(--nm-accent-wash);
+    color: var(--nm-accent-text);
+  }
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+@utility font-grotesk {
+  font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Metric numerals: tabular figures + slashed zero, so values like
+   "100%", "2,500+" and "30%+" never shift width or read ambiguously. */
+@utility metric-value {
+  font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+@utility tag-mono {
+  font-family: var(--font-mono), ui-monospace, "SFMono-Regular", monospace;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  font-variant-ligatures: none; /* no => / -> ligatures in UI labels */
+}
+
+/* ============================================================
+   SCROLL REVEALS — PROGRESSIVE ENHANCEMENT
+
+   The IntersectionObserver component flips data-revealed; CSS owns
+   the actual motion. Stagger comes from --reveal-i (set inline from
+   an index), never from a JS timer.
+
+   CRITICAL: the hidden state is scoped to `html.js-reveal`, a class
+   set by the BLOCKING inline script in <head>. That class only exists
+   when JavaScript is actually running. Therefore:
+
+     no JS / JS fails / observer never fires  ->  content visible
+     JS running                                ->  reveals animate
+
+   Without this scope every element below the fold would sit at
+   opacity:0 forever for anyone without JS. On a job-seeking portfolio
+   that means a blank page.
+   ============================================================ */
+html.js-reveal [data-reveal] {
+  opacity: 0;
+  translate: 0 16px;
+  transition:
+    opacity 600ms var(--ease-soft),
+    translate 600ms var(--ease-soft);
+  transition-delay: calc(var(--reveal-i, 0) * 50ms);
+}
+
+html.js-reveal [data-reveal][data-revealed] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   This is a CORRECTNESS fix, not a nicety: reveals are opacity-gated,
+   so a reduced-motion user whose observer never fires would be left
+   staring at a blank page.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}
+
+/* ============================================================
+   FORCED COLORS / Windows High Contrast
+   Soft UI is stripped entirely in this mode, so component boundaries
+   must be restored with real system colours.
+   ============================================================ */
+@media (forced-colors: active) {
+  .neu,
+  .neu-sm,
+  .neu-inset {
+    box-shadow: none !important;
+    border: 1px solid CanvasText;
+  }
+
+  :focus-visible {
+    outline: 3px solid Highlight;
+  }
+}
