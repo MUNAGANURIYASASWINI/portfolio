@@ -12,7 +12,8 @@ export function personSchema() {
     name: profile.name,
     jobTitle: profile.roles.join(" | "),
     email: `mailto:${profile.email}`,
-    telephone: profile.phone,
+    // No telephone: the number was removed from the Contact section, so
+    // the machine-readable schema must not re-expose it to scrapers.
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
     sameAs: [profile.linkedin, profile.github],
     knowsAbout: [

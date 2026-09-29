@@ -181,6 +181,15 @@ export function GitHubIcon({ className, size = 16 }: IconProps) {
   );
 }
 
+export function CopyIcon({ className, size = 16 }: IconProps) {
+  return (
+    <svg {...base(size)} className={className}>
+      <rect x="4.5" y="4" width="7.5" height="10" rx="1.5" />
+      <rect x="6.2" y="1.8" width="3.6" height="2.4" rx="0.8" />
+    </svg>
+  );
+}
+
 export function DownloadIcon({ className, size = 16 }: IconProps) {
   return (
     <svg {...base(size)} className={className}>

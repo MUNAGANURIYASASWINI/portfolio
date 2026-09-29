@@ -8,7 +8,7 @@ export const crm = {
   client: "Biztechnosys Infotech",
   period: "Nov 2025 - Aug 2026",
   summary:
-    "End-to-end quality coverage for a customer relationship platform spanning customer management, lead tracking, sales pipelines and real-time interaction workflows — validated identically on desktop browsers and on Android and iOS devices.",
+    "End-to-end quality coverage for a customer relationship platform spanning customer management, lead tracking, sales pipelines and real-time interaction workflows, validated identically on desktop browsers and on Android and iOS devices.",
   testTypes: [
     "Functional",
     "Regression",
