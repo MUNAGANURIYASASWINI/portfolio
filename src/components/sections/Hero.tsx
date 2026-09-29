@@ -4,20 +4,24 @@ import {
   LinkedInIcon,
   MailIcon,
 } from "@/components/icons";
+import { HeroArtifact } from "@/components/sections/HeroArtifact";
 import { NeuButton } from "@/components/ui/NeuButton";
 import { profile } from "@/content/profile";
 
 /**
  * The page's single <h1>. The hero is text, not an image, so LCP is the
- * heading itself and nothing is gated on JS.
+ * heading itself and nothing is gated on JS. The 3D artifact is a
+ * late-mounting, explicitly-sized companion: it can never become LCP
+ * or cause CLS.
  */
 export function Hero() {
   return (
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="mx-auto flex w-full max-w-5xl flex-col items-start px-6 pt-16 pb-8 sm:pt-24 sm:pb-12"
+      className="mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-10 px-6 pt-16 pb-8 sm:pt-24 sm:pb-12 lg:grid-cols-[1fr_320px]"
     >
+      <div className="flex min-w-0 flex-col items-start">
       <p className="tag-mono text-accent-text">/work/crm · /work/erp · /work/honda</p>
 
       {/* sweep is pure CSS: no-JS still animates, reduced-motion and
@@ -71,6 +75,9 @@ export function Hero() {
           GitHub
         </NeuButton>
       </div>
+      </div>
+
+      <HeroArtifact />
     </section>
   );
 }

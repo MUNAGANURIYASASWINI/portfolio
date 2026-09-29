@@ -94,11 +94,13 @@ const clientFiles = walk(src).filter(
   (f) => /\.(tsx?|jsx?)$/.test(f) && /^"use client"/m.test(readFileSync(f, "utf8")),
 );
 // Every client island must be justified. ContactActions is the third:
-// clipboard writes and the live self-check cannot run on the server.
+// clipboard writes cannot run on the server. HeroArtifact is the
+// fourth: WebGL cannot render on the server.
 const ALLOWED_CLIENT = [
   "RevealObserver.tsx",
   "ThemeToggle.tsx",
   "ContactActions.tsx",
+  "HeroArtifact.tsx",
 ];
 const basenames = clientFiles.map((f) => f.split(/[\\/]/).pop());
 const unexpected = basenames.filter((b) => !ALLOWED_CLIENT.includes(b));

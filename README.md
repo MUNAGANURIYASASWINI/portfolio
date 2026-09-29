@@ -32,6 +32,7 @@ npm run typecheck  # tsc --noEmit
 | Package | Reason |
 |---|---|
 | `animejs` 4.5.0 | Magnetic buttons + springy staggered entrances. Springs and orchestration are the two things CSS cannot do. Measured tree-shaken cost ~20.6 KB gzip — versus 40.9 KB for `motion/react`, which would also force `'use client'` across ~10 files. Loaded via **dynamic import after mount**, so First Load JS is untouched (~175 KB, still the framework floor). If the chunk fails, everything degrades to static final states. |
+| `three` 0.186.1 (+ `@types/three` dev) | The hero verification shield. Vanilla three.js only — no fiber, no drei. **~183 KB gzip in an async chunk**, loaded after the page is interactive, and only on fine pointers without reduced motion and with WebGL. Everyone else (mobile, reduced motion, no-JS, WebGL-less, load failure) keeps the server-rendered SVG fallback. This is the honest cost of the user's explicit 3D request: total page weight is now ~390 KB gzip. First Load is unchanged. |
 
 | Still excluded | Reason |
 |---|---|

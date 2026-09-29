@@ -26,6 +26,13 @@ Status legend: `[x]` done · `[ ]` open
 - [x] **Footer removed; Contact trimmed to copy-email row; Work nav link
       added; ThemeToggle added to case-study headers**
 - [x] Dropped the color-palette subagent track at user request (cancelled)
+- [x] **Hero 3D verification shield (three.js vanilla, user-directed)** —
+      extruded shield + tube checkmark, top-left key light matching the
+      neumorphic convention, pointer parallax + idle drift, theme-aware
+      re-tint from live tokens. Gated: fine pointers, no reduced motion,
+      WebGL present, dynamic import post-mount. SVG fallback otherwise.
+      Verified live both themes (canvas 320px, fallback hidden, 0 errors).
+      Cost: total page weight ~390 KB gzip; First Load untouched.
 
 ## Shipped since v1 (earlier)
 
