@@ -38,7 +38,22 @@ export function NeuMetric({ metric, index = 0 }: NeuMetricProps) {
         <Icon name={metric.icon} size={16} />
       </span>
 
-      <p className="metric-value text-2xl text-ink">{metric.value}</p>
+      {/* When countup is present the span carries the decomposition and
+          the server-rendered final value. JS overwrites on intersection;
+          without JS the correct number is already here. */}
+      <p className="metric-value text-2xl text-ink">
+        {metric.countup ? (
+          <span
+            data-countup={metric.countup.to}
+            data-prefix={metric.countup.prefix}
+            data-suffix={metric.countup.suffix}
+          >
+            {metric.value}
+          </span>
+        ) : (
+          metric.value
+        )}
+      </p>
 
       <div>
         <p className="text-sm text-body">{metric.label}</p>

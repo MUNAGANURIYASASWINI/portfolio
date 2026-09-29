@@ -28,16 +28,17 @@ export function NeuCard({
   reveal,
 }: NeuCardProps) {
   const base =
-    "neu bg-raised rounded-xl p-6 transition-[box-shadow,transform] duration-200 ease-soft";
+    "neu bg-raised rounded-xl p-6 transition-[box-shadow,transform,scale] duration-200 ease-soft";
 
   const interactiveStyles = interactive
-    ? "shadow-neu border border-line-strong/60 hover:shadow-neu-hover hover:-translate-y-0.5 focus-within:ring-neu"
+    ? "neu-interactive shadow-neu border border-line-strong/60 hover:shadow-neu-hover hover:-translate-y-0.5 focus-within:ring-neu"
     : "shadow-neu";
 
   return (
     <Tag
       id={id}
       {...(reveal !== undefined ? { "data-reveal": "" } : {})}
+      {...(interactive ? { "data-tilt": "" } : {})}
       style={
         reveal !== undefined
           ? ({ "--reveal-i": reveal } as React.CSSProperties)

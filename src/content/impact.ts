@@ -14,6 +14,7 @@ export const impactMetrics = [
     detail: "Recognised within 7 months for QA delivery and prompt-engineering contributions",
     kind: "impact",
     icon: "spark",
+    countup: { to: 33, prefix: "", suffix: "%" },
   },
   {
     value: "250+",
@@ -21,6 +22,7 @@ export const impactMetrics = [
     detail: "Manual and API, across CRM, ERP, enterprise and AI applications",
     kind: "volume",
     icon: "gauge",
+    countup: { to: 250, prefix: "", suffix: "+" },
   },
   {
     value: "30%+",
@@ -28,6 +30,7 @@ export const impactMetrics = [
     detail: "Through structured functional, regression, smoke, sanity and exploratory testing",
     kind: "quality",
     icon: "shield",
+    countup: { to: 30, prefix: "", suffix: "%+" },
   },
   {
     value: "100+",
@@ -35,6 +38,7 @@ export const impactMetrics = [
     detail: "Authored and executed for the CRM application across six scenario classes",
     kind: "volume",
     icon: "target",
+    countup: { to: 100, prefix: "", suffix: "+" },
   },
   {
     value: "4",

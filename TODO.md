@@ -15,6 +15,20 @@ Status legend: `[x]` done · `[ ]` open
 - [x] **9. A11y + integrity gate** — `scripts/verify.mjs`, 21 checks passing
 - [x] **10. Verification** — static export, literal h1, no persona leakage, JS budget
 
+## Shipped since v1
+
+- [x] **Contact trust rail** — phone removed (section + JSON-LD);
+      copy-to-clipboard email with Primer-pattern confirmation;
+      live self-check panel (4 real in-browser assertions, neutral
+      pre-JS state); honest GitHub gap line; LinkedIn/résumé descriptors
+- [x] **Site titles use pipes, not em dashes** (matches resume header);
+      all 4 user-facing body-copy em dashes scrubbed; 0 in rendered HTML
+- [x] **Micro-interactions P1–P4, zero dependencies** — card bloom + tilt,
+      metric count-up (server-rendered finals), matrix :has() highlight,
+      hero gradient sweep. Verified live: counts land on finals, hover
+      scales cells 1.12x, tilt writes --rx/--ry, sweep animates.
+      Terminal typing (P5) held: contested, and Contact is already rich.
+
 ## Bugs found and fixed
 
 - [x] **Scroll reveals hid all content below the fold** — `opacity: 0` was

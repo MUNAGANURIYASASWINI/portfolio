@@ -20,10 +20,12 @@ export function Hero() {
     >
       <p className="tag-mono text-accent-text">/work/crm · /work/erp · /work/honda</p>
 
+      {/* sweep is pure CSS: no-JS still animates, reduced-motion and
+          forced-colors both restore an opaque color (see globals.css). */}
       <h1
         id="hero-heading"
         data-reveal
-        className="mt-4 text-4xl font-bold tracking-tight text-ink sm:text-5xl"
+        className="sweep mt-4 text-4xl font-bold tracking-tight sm:text-5xl"
       >
         {profile.name}
       </h1>

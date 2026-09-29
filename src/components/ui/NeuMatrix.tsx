@@ -37,7 +37,7 @@ const SHORT: Partial<Record<TestType, string>> = {
  */
 export function NeuMatrix() {
   return (
-    <div className="neu overflow-hidden rounded-xl bg-raised shadow-neu">
+    <div className="neu matrix overflow-hidden rounded-xl bg-raised shadow-neu">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[38rem] border-collapse">
           <caption className="sr-only">
@@ -72,13 +72,15 @@ export function NeuMatrix() {
                 >
                   {t}
                 </th>
-                {engagements.map((e) => {
+                {engagements.map((e, ci) => {
                   // `as const` narrows testTypes to a literal tuple, so
                   // `.includes()` would only accept that one member.
                   const covered = (e.testTypes as readonly TestType[]).includes(t);
+                  // data-col drives the pure-CSS :has() column highlight.
                   return (
                     <td key={e.slug} className="px-4 py-2.5">
                       <span
+                        data-col={ci}
                         className="neu-inset grid h-7 w-7 place-items-center rounded-md"
                         title={
                           covered

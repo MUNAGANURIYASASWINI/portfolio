@@ -291,6 +291,107 @@ html.js-reveal [data-reveal][data-revealed] {
 }
 
 /* ============================================================
+   MICRO-INTERACTIONS — all zero-dependency, all progressive
+   enhancement. Nothing here hides content behind JS: the tilt and
+   count-up only overwrite what is already rendered, and the sweep
+   and matrix effects are pure CSS.
+   ============================================================ */
+
+/* ---- P1: hover softness ramp for interactive cards ----
+   The existing hover (shadow-neu-hover + -translate-y) supplies the
+   lift; the scale supplies the bloom. Gated to fine pointers so touch
+   devices never pay for an effect they cannot trigger. */
+@media (hover: hover) and (pointer: fine) {
+  .neu-interactive:hover {
+    scale: 1.012;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .neu-interactive:hover {
+    transition-duration: var(--duration-slow);
+  }
+}
+
+/* ---- P1b: pointer tilt ----
+   JS (RevealObserver island) writes --rx/--ry, coalesced to one write
+   per frame with getBoundingClientRect read only inside rAF. CSS owns
+   the motion. translate (reveals, Tailwind hovers) and transform
+   (this tilt) are separate properties, so they compose. */
+[data-tilt] {
+  transform: perspective(900px) rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transition:
+    box-shadow 200ms var(--ease-soft),
+    transform 300ms var(--ease-soft),
+    scale 200ms var(--ease-soft);
+}
+
+/* ---- P3: coverage-matrix highlight ----
+   Highlight-only, NEVER dim: dimming covered cells to ~35% opacity
+   would drag --nm-quality (5.31:1) below contrast minimums. Without
+   :has() support (Safari 15.4+, Chrome 105+, Firefox 121+) the table
+   is simply fully readable — the correct failure mode. */
+.matrix [data-col] {
+  transition: transform 200ms var(--ease-soft);
+}
+.matrix tbody tr:hover [data-col] {
+  transform: scale(1.12);
+}
+.matrix [data-col]:hover {
+  transform: scale(1.18);
+}
+.matrix:has([data-col="0"]:hover) [data-col="0"],
+.matrix:has([data-col="1"]:hover) [data-col="1"],
+.matrix:has([data-col="2"]:hover) [data-col="2"],
+.matrix:has([data-col="3"]:hover) [data-col="3"] {
+  transform: scale(1.12);
+}
+
+/* ---- P4: gradient sweep for display headings ----
+   Animates background-position only: no layout, no geometric paint.
+   The text stays real DOM text (SEO and screen readers unaffected).
+   Two mandatory fallbacks: reduced-motion MUST restore an opaque
+   color (otherwise the heading is invisible), and forced-colors must
+   do the same (background-clip:text is stripped there anyway). */
+@keyframes sweep {
+  from {
+    background-position: 200% 50%;
+  }
+  to {
+    background-position: -200% 50%;
+  }
+}
+.sweep {
+  background: linear-gradient(
+    100deg,
+    var(--nm-text-strong) 0%,
+    var(--nm-text-strong) 40%,
+    var(--nm-accent) 50%,
+    var(--nm-text-strong) 60%,
+    var(--nm-text-strong) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sweep 6s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sweep {
+    animation: none;
+    background: none;
+    color: var(--nm-text-strong);
+  }
+}
+@media (forced-colors: active) {
+  .sweep {
+    animation: none;
+    background: none;
+    color: CanvasText;
+  }
+}
+
+/* ============================================================
    REDUCED MOTION
    This is a CORRECTNESS fix, not a nicety: reveals are opacity-gated,
    so a reduced-motion user whose observer never fires would be left

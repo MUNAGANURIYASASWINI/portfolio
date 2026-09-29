@@ -40,6 +40,14 @@ export type Metric = {
   detail: string;
   kind: MetricKind;
   icon: IconName;
+  /**
+   * Opt-in count-up decomposition. The full `value` is ALWAYS
+   * server-rendered; JS only overwrites it on intersection, so no-JS
+   * and reduced-motion users see the correct number instantly.
+   * Omitted for single-digit values ("4", "~1 yr") where counting
+   * 0→1 would read as broken rather than delightful.
+   */
+  countup?: { to: number; prefix: string; suffix: string };
 };
 
 /** Semantic classification for the coverage matrix icons. */
