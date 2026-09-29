@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/icons";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NeuCard } from "@/components/ui/NeuCard";
+import { ENGAGEMENT_HUE } from "@/lib/engagement-hue";
 import { NeuTag } from "@/components/ui/NeuTag";
 import { engagements, getEngagement } from "@/content/engagements";
 import { profile } from "@/content/profile";
@@ -68,7 +69,18 @@ export default async function CaseStudyPage({
 
       <main id="main" className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-16">
         <header>
-          <p className="tag-mono text-accent-text">{engagement.appType}</p>
+          <p>
+            <span
+              className="tag-mono inline-flex h-6 items-center rounded-pill px-2.5 text-ink"
+              style={{
+                background:
+                  ENGAGEMENT_HUE[engagement.slug as keyof typeof ENGAGEMENT_HUE]
+                    .wash,
+              }}
+            >
+              {engagement.appType}
+            </span>
+          </p>
           <h1
             data-reveal
             className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl"

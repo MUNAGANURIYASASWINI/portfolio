@@ -26,6 +26,13 @@ Status legend: `[x]` done · `[ ]` open
 - [x] **Footer removed; Contact trimmed to copy-email row; Work nav link
       added; ThemeToggle added to case-study headers**
 - [x] Dropped the color-palette subagent track at user request (cancelled)
+- [x] **Palette expansion implemented directly (Tier 2 model)** — 4
+      engagement washes + strips (rose/amber/green/violet), AI violet
+      text identity, hero tint mesh, matrix dots, wash pills on cards +
+      case pages. scripts/palette.py gates legibility (all AAA) and
+      reports simulated colorblind separation. First-round text hues
+      rejected by measurement (indigo/blue dE 0.89, forest/teal dE 2.16).
+      Both themes screenshotted and calm. 22/22 checks.
 - [x] **Hero 3D verification shield (three.js vanilla, user-directed)** —
       extruded shield + tube checkmark, top-left key light matching the
       neumorphic convention, pointer parallax + idle drift, theme-aware

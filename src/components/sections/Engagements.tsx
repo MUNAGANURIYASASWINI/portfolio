@@ -5,6 +5,7 @@ import { Section } from "@/components/sections/Section";
 import { NeuCard } from "@/components/ui/NeuCard";
 import { NeuTag } from "@/components/ui/NeuTag";
 import { engagements } from "@/content/engagements";
+import { ENGAGEMENT_HUE } from "@/lib/engagement-hue";
 
 /**
  * Preview cards. All four carry the same client name, stated plainly —
@@ -32,13 +33,27 @@ export function Engagements() {
             key={e.slug}
             as="article"
             interactive
+            bar={ENGAGEMENT_HUE[e.slug as keyof typeof ENGAGEMENT_HUE].strip}
             className="group flex flex-col gap-4"
           >
             <div data-reveal style={{ "--reveal-i": i } as React.CSSProperties}>
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-xl text-ink">{e.title}</h3>
-                  <p className="mt-1 text-sm text-meta">{e.appType}</p>
+                  {/* Wash pill: tinted background, ink text (AAA).
+                      The hue is variety; the words carry the meaning. */}
+                  <p className="mt-2">
+                    <span
+                      className="tag-mono inline-flex h-6 items-center rounded-pill px-2.5 text-ink"
+                      style={{
+                        background:
+                          ENGAGEMENT_HUE[e.slug as keyof typeof ENGAGEMENT_HUE]
+                            .wash,
+                      }}
+                    >
+                      {e.appType}
+                    </span>
+                  </p>
                 </div>
 {/* No period badge: all four engagements share the same dates, so
                     repeating it four times is pure noise. The full

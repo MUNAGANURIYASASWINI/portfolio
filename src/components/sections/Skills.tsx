@@ -12,10 +12,15 @@ export function Skills() {
       >
         {skillGroups.map((group, gi) => (
           <NeuCard key={group.id} className="flex flex-col gap-4">
+            {/* The AI group carries the AI violet identity (5.83:1+);
+                every other group stays accent. The words, not the hue,
+                say which group this is. */}
             <h3
               data-reveal
               style={{ "--reveal-i": gi } as React.CSSProperties}
-              className="text-sm font-semibold uppercase tracking-wider text-accent-text"
+              className={`text-sm font-semibold uppercase tracking-wider ${
+                group.id === "api-ai" ? "text-ai" : "text-accent-text"
+              }`}
             >
               {group.label}
             </h3>

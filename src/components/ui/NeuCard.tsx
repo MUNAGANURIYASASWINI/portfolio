@@ -10,6 +10,13 @@ type NeuCardProps = {
   id?: string;
   /** Opt into the scroll-reveal system. `index` staggers via --reveal-i. */
   reveal?: number;
+  /**
+   * Saturated accent bar across the card top (decorative only).
+   * Pass a CSS color, e.g. an engagement strip var. Sits inside the
+   * padding at inset-x-6, where the card edge is flat, so it never
+   * fights the 24px corner radius.
+   */
+  bar?: string;
 };
 
 /**
@@ -26,9 +33,10 @@ export function NeuCard({
   as: Tag = "div",
   id,
   reveal,
+  bar,
 }: NeuCardProps) {
   const base =
-    "neu bg-raised rounded-xl p-6 transition-[box-shadow,transform,scale] duration-200 ease-soft";
+    "neu relative bg-raised rounded-xl p-6 transition-[box-shadow,transform,scale] duration-200 ease-soft";
 
   const interactiveStyles = interactive
     ? "neu-interactive shadow-neu border border-line-strong/60 hover:shadow-neu-hover hover:-translate-y-0.5 focus-within:ring-neu"
@@ -46,6 +54,13 @@ export function NeuCard({
       }
       className={`${base} ${interactiveStyles} ${className}`}
     >
+      {bar ? (
+        <span
+          aria-hidden="true"
+          className="absolute inset-x-6 top-0 h-1 rounded-full"
+          style={{ background: bar }}
+        />
+      ) : null}
       {children}
     </Tag>
   );

@@ -88,6 +88,15 @@ by ~9x **luminance**, never hue — a naive blue/green/violet triad collapsed to
 ΔE 0.027 under deuteranopia. Icon shape and text label are the primary
 channels; colour is redundant reinforcement.
 
+**Tier 2 decorative hues** (`--nm-wash-*`, `--nm-strip-*`, `--nm-ai`) add
+per-engagement colour (rose/amber/green/violet) without touching the
+contrast ladder: hues live only as pill backgrounds (ink text on top at
+7.25–12.89:1) and thin decorative strips. First-round text-hue
+candidates failed exactly where predicted (indigo→blue dE 0.89,
+forest→teal dE 2.16), so text hues were abandoned in favour of washes.
+Verified by `python scripts/palette.py` (WCAG gates + simulated
+protanopia/deuteranopia/tritanopia separation, informational for Tier 2).
+
 **Radius rule:** radius must be >= 2x the shadow offset, or the shadow clips
 into mud. 6px offset → min 14px radius. `rounded-sm`/`xs` are banned on
 shadowed elements.

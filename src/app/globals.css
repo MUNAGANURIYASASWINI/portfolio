@@ -49,6 +49,26 @@
   --nm-on-accent: #ffffff; /* 7.18:1 on fill */
   --nm-accent-wash: #dce2f5;
 
+  /* --- Tier 2 decorative hues (palette.py verified) ---
+     Washes are tinted PILL BACKGROUNDS: ink text sits on top
+     (7.25-12.89:1, AAA). Strips are thin saturated accents,
+     decorative only. Meaning always stays in words + icons. */
+  --nm-wash-crm: #f4d4de; /* rose   — CRM Application */
+  --nm-wash-erp: #f1e0c2; /* amber  — ERP Application */
+  --nm-wash-honda: #d2e9da; /* green — Honda Enterprise Web App */
+  --nm-wash-ai: #ded5f6; /* violet — AI Chatbot + AI identity */
+
+  /* AI text hue for small labels (skill group, cert issuer).
+     5.83-6.57:1 on raised/inset. */
+  --nm-ai: #5b3fb8;
+
+  /* Strip hues double as the dark washes below; defined once here
+     and NOT overridden in .dark (same saturated value, both modes). */
+  --nm-strip-crm: #5e2a3f;
+  --nm-strip-erp: #5e4517;
+  --nm-strip-honda: #1e5c3b;
+  --nm-strip-ai: #44308a;
+
   /* --- semantic metric colours (QA-scoped) ---
      Separated by ~9x LUMINANCE, never hue. A naive blue/green/violet
      triad collapsed to deltaE 0.027 under deuteranopia (near-identical
@@ -109,6 +129,15 @@
   --nm-on-accent: #ffffff;
   --nm-accent-wash: #23293a;
 
+  /* Dark washes: saturated, carry near-white ink (7.25-10.22:1).
+     These same hexes serve as the saturated strips in both modes. */
+  --nm-wash-crm: #5e2a3f;
+  --nm-wash-erp: #5e4517;
+  --nm-wash-honda: #1e5c3b;
+  --nm-wash-ai: #44308a;
+
+  --nm-ai: #b3a1f7;
+
   --nm-volume: #7fa8f5; /* 5.63:1 */
   --nm-quality: #4fc5a2; /* 6.28:1 */
   --nm-impact: #e0a05c; /* 5.97:1 */
@@ -153,6 +182,16 @@
   --color-accent-text: var(--nm-accent-text);
   --color-on-accent: var(--nm-on-accent);
   --color-accent-wash: var(--nm-accent-wash);
+
+  --color-ai: var(--nm-ai);
+  --color-wash-crm: var(--nm-wash-crm);
+  --color-wash-erp: var(--nm-wash-erp);
+  --color-wash-honda: var(--nm-wash-honda);
+  --color-wash-ai: var(--nm-wash-ai);
+  --color-strip-crm: var(--nm-strip-crm);
+  --color-strip-erp: var(--nm-strip-erp);
+  --color-strip-honda: var(--nm-strip-honda);
+  --color-strip-ai: var(--nm-strip-ai);
 
   --color-volume: var(--nm-volume);
   --color-quality: var(--nm-quality);
@@ -296,11 +335,46 @@ html.js-reveal [data-reveal][data-revealed] {
   translate: 0 0;
 }
 
+/* ---- Hero tint mesh: two faint wash radials behind the content.
+   Decorative only. Content sits above via z-index. ---- */
+#hero {
+  position: relative;
+  isolation: isolate;
+}
+#hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      30rem 22rem at 82% 18%,
+      var(--nm-wash-ai) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      26rem 20rem at 6% 92%,
+      var(--nm-accent-wash) 0%,
+      transparent 70%
+    );
+  opacity: 0.55;
+}
+#hero > * {
+  position: relative;
+  z-index: 1;
+}
+@media (forced-colors: active) {
+  #hero::before {
+    display: none;
+  }
+}
+
 /* ============================================================
-   MICRO-INTERACTIONS — all zero-dependency, all progressive
-   enhancement. Nothing here hides content behind JS: the tilt and
-   count-up only overwrite what is already rendered, and the sweep
-   and matrix effects are pure CSS.
+   MICRO-INTERACTIONS — all progressive enhancement. Nothing here
+   hides content behind JS: the tilt and count-up only overwrite
+   what is already rendered, and the sweep and matrix effects are
+   pure CSS. animejs (magnetic, stagger) works alongside.
    ============================================================ */
 
 /* ---- P1: hover softness ramp for interactive cards ----

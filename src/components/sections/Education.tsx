@@ -15,7 +15,7 @@ export function Education() {
           {certifications.map((c) => (
             <div key={c.title}>
               <p className="text-base text-ink">{c.title}</p>
-              <p className="mt-1 text-sm text-meta">{c.issuer}</p>
+              <p className="mt-1 text-sm text-ai">{c.issuer}</p>
               <p className="tag-mono mt-2 inline-block text-muted">{c.year}</p>
             </div>
           ))}

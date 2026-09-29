@@ -1,5 +1,6 @@
 import { CheckIcon, CrossIcon } from "@/components/icons";
 import { engagements } from "@/content/engagements";
+import { ENGAGEMENT_HUE } from "@/lib/engagement-hue";
 import type { TestType } from "@/types/content";
 
 /** The nine test types named in the resume's "Testing" skills group. */
@@ -58,6 +59,17 @@ export function NeuMatrix() {
                   scope="col"
                   className="px-4 py-3 text-left text-xs font-semibold text-ink"
                 >
+                  {/* Decorative hue dot matching the engagement card.
+                      Header text carries the meaning, as always. */}
+                  <span
+                    aria-hidden="true"
+                    className="mr-1.5 inline-block h-2 w-2 rounded-full align-baseline"
+                    style={{
+                      background:
+                        ENGAGEMENT_HUE[e.slug as keyof typeof ENGAGEMENT_HUE]
+                          .strip,
+                    }}
+                  />
                   {SHORT[e.title as keyof typeof SHORT] ?? e.title}
                 </th>
               ))}
