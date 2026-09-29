@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/icons";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { NeuCard } from "@/components/ui/NeuCard";
 import { NeuTag } from "@/components/ui/NeuTag";
 import { engagements, getEngagement } from "@/content/engagements";
@@ -61,6 +62,7 @@ export default async function CaseStudyPage({
           <p className="font-grotesk text-sm font-semibold tracking-tight text-ink">
             {profile.name}
           </p>
+          <ThemeToggle />
         </nav>
       </header>
 

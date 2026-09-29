@@ -2,7 +2,6 @@ import { Contact } from "@/components/sections/Contact";
 import { Education } from "@/components/sections/Education";
 import { Engagements } from "@/components/sections/Engagements";
 import { Experience } from "@/components/sections/Experience";
-import { Footer } from "@/components/sections/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { Impact } from "@/components/sections/Impact";
 import { Nav } from "@/components/sections/Nav";
@@ -26,7 +25,6 @@ export default function HomePage() {
         <Education />
         <Contact />
       </main>
-      <Footer />
     </>
   );
 }
