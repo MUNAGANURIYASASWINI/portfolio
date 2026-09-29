@@ -37,6 +37,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
+      data-magnetic=""
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       aria-pressed={isDark}
       className="neu-sm grid h-11 w-11 place-items-center rounded-md bg-raised text-accent-text

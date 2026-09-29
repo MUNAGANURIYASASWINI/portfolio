@@ -17,6 +17,18 @@ Status legend: `[x]` done · `[ ]` open
 
 ## Shipped since v1
 
+- [x] **animejs 4.5.0 adoption (user-directed, zero-dep policy retired)** —
+      magnetic buttons (spring home), staggered grid entrances, card
+      spotlight + button/tag/nav/matrix glow system. Dynamic import keeps
+      First Load at ~175 KB; anime travels in a ~20.6 KB async chunk.
+      Verified live: stagger clears inline styles, magnetic pulls 4.8px,
+      spotlight hits 0.55 opacity, matrix cell gains halo. 22/22 checks.
+- [x] **Footer removed; Contact trimmed to copy-email row; Work nav link
+      added; ThemeToggle added to case-study headers**
+- [x] Dropped the color-palette subagent track at user request (cancelled)
+
+## Shipped since v1 (earlier)
+
 - [x] **Contact trust rail** — phone removed (section + JSON-LD);
       copy-to-clipboard email with Primer-pattern confirmation;
       live self-check panel (4 real in-browser assertions, neutral
@@ -46,6 +58,17 @@ Status legend: `[x]` done · `[ ]` open
       in the emitted CSS.
 
 ## Open / next
+
+- [ ] **Console noise on static preview:** Next's router prefetches
+      `__next.work.$d$slug.__PAGE__.txt` for `[slug]` links, which 404s
+      under plain `npx serve`. Pre-existing (not caused by any feature
+      work); client navigation itself verified working. Confirm silent
+      on Cloudflare Pages after deploy, else ignore.
+- [ ] Palette expansion is parked (research track cancelled at user
+      request). The glow system derives from existing tokens via
+      `--nm-glow`, so a future palette flows through automatically.
+
+## Open / next (earlier)
 
 - [ ] **Generate `public/og.png`** (1200×630). `metadata` references it, but the
       file does not exist yet — LinkedIn/Slack previews will currently 404.

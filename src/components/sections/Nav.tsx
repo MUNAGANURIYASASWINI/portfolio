@@ -32,7 +32,7 @@ export function Nav() {
             <li key={l.href}>
               <a
                 href={l.href}
-                className="inline-flex min-h-11 items-center rounded-md px-3 text-sm text-meta
+                className="nav-link inline-flex min-h-11 items-center rounded-md px-3 text-sm text-meta
                            no-underline transition-colors duration-150 hover:text-accent-text"
               >
                 {l.label}

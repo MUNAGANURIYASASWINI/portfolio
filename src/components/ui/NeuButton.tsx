@@ -34,7 +34,7 @@ const VARIANTS: Record<Variant, string> = {
 };
 
 const BASE =
-  "neu-sm inline-flex items-center justify-center gap-2 rounded-md px-5 min-h-11 " +
+  "neu-sm btn-glow inline-flex items-center justify-center gap-2 rounded-md px-5 min-h-11 " +
   "font-medium text-[0.9375rem] no-underline cursor-pointer select-none " +
   "shadow-neu-sm transition-[box-shadow,transform,background-color,color] duration-150 ease-soft " +
   "active:shadow-neu-inset active:translate-y-px";
@@ -51,6 +51,9 @@ export function NeuButton({
 }: NeuButtonProps) {
   const classes = `${BASE} ${VARIANTS[variant]} ${className}`;
 
+  // data-magnetic opts into the animejs magnetic pull (motion island).
+  // translate (Tailwind hovers) and transform (anime x/y) are separate
+  // properties, so they compose instead of fighting.
   if (href) {
     if (external) {
       return (
@@ -58,6 +61,7 @@ export function NeuButton({
           href={href}
           aria-label={ariaLabel}
           className={classes}
+          data-magnetic=""
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -66,14 +70,20 @@ export function NeuButton({
       );
     }
     return (
-      <Link href={href} aria-label={ariaLabel} className={classes}>
+      <Link href={href} aria-label={ariaLabel} className={classes} data-magnetic="">
         {children}
       </Link>
     );
   }
 
   return (
-    <button type={type} aria-label={ariaLabel} className={classes} onClick={onClick}>
+    <button
+      type={type}
+      aria-label={ariaLabel}
+      className={classes}
+      data-magnetic=""
+      onClick={onClick}
+    >
       {children}
     </button>
   );

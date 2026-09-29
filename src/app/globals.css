@@ -75,6 +75,10 @@
      so the outer ring always has >=3:1 against something — a single 2px
      accent outline vanishes on a raised neumorphic surface. */
   --nm-ring: 0 0 0 2px var(--nm-base), 0 0 0 4px var(--nm-accent);
+
+  /* Accent glow, derived from the accent token so a future palette
+     swap flows through automatically. Hover-only, decorative. */
+  --nm-glow: 0 0 22px rgb(47 75 196 / 0.22);
 }
 
 /* ============================================================
@@ -122,6 +126,8 @@
     inset 2px 2px 5px rgb(8 11 16 / 0.55);
 
   --nm-ring: 0 0 0 2px var(--nm-base), 0 0 0 4px var(--nm-accent);
+
+  --nm-glow: 0 0 26px rgb(126 151 249 / 0.38);
 }
 
 /* ============================================================
@@ -345,6 +351,89 @@ html.js-reveal [data-reveal][data-revealed] {
 .matrix:has([data-col="2"]:hover) [data-col="2"],
 .matrix:has([data-col="3"]:hover) [data-col="3"] {
   transform: scale(1.12);
+}
+
+/* ---- Glow system (animejs works alongside, not instead) ----
+   Every glow below is hover-only decoration layered OVER the existing
+   shadows: nothing here replaces a shadow, a border, or a focus ring,
+   so contrast and 1.4.11 boundaries are untouched. */
+
+/* Card spotlight: a cursor-tracking wash of accent tint. --lx/--ly are
+   written per-frame by the motion island (same rAF as the tilt, so no
+   extra listeners). The wash is huge and soft, so exact tracking is
+   unnecessary — presence, not precision. */
+[data-tilt] {
+  position: relative;
+}
+[data-tilt]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    26rem 26rem at var(--lx, 50%) var(--ly, 50%),
+    var(--nm-accent-wash) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 400ms var(--ease-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-tilt]:hover::after {
+    opacity: 0.55;
+  }
+}
+@media (forced-colors: active) {
+  [data-tilt]::after {
+    display: none;
+  }
+}
+
+/* Button glow. Scoped to :hover:not(:active) so the press state's
+   inset-shadow swap (which lives in layered Tailwind utilities) is
+   never overridden by this unlayered rule. */
+.btn-glow:hover:not(:active) {
+  box-shadow: var(--shadow-neu-sm), var(--nm-glow);
+}
+
+/* Tag lift. Tags are non-interactive labels; this is pure decoration
+   and carries no meaning, so hover-only is acceptable. */
+.tag {
+  transition:
+    translate 150ms var(--ease-soft),
+    filter 150ms var(--ease-soft);
+}
+.tag:hover {
+  translate: 0 -1px;
+  filter: brightness(1.07);
+}
+
+/* Nav link underline sweep. */
+.nav-link {
+  background: linear-gradient(
+    to right,
+    var(--nm-accent-text),
+    var(--nm-accent-text)
+  );
+  background-size: 0% 1.5px;
+  background-position: 50% calc(100% - 6px);
+  background-repeat: no-repeat;
+  transition:
+    background-size 250ms var(--ease-soft),
+    color 150ms var(--ease-soft);
+}
+.nav-link:hover {
+  background-size: calc(100% - 1.5rem) 1.5px;
+}
+
+/* Matrix cell hover glow: an accent halo behind the scale already
+   applied in P3. Decorative; the check/cross icon and table headers
+   carry all meaning. */
+.matrix [data-col]:hover {
+  box-shadow:
+    var(--shadow-neu-inset),
+    var(--nm-glow);
 }
 
 /* ---- P4: gradient sweep for display headings ----

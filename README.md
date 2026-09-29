@@ -27,13 +27,18 @@ npm run typecheck  # tsc --noEmit
 | Runtime deps | **Zero** (see below) |
 | Deploy | Cloudflare Pages from `out/` (Vercel = fallback) |
 
-### Why no runtime dependencies
+### Dependencies: exactly one, and why
 
-| Excluded | Reason |
+| Package | Reason |
 |---|---|
-| `motion` / `framer-motion` | ~50KB. The tactile press is two CSS declarations (swap raised→inset on `:active`). |
+| `animejs` 4.5.0 | Magnetic buttons + springy staggered entrances. Springs and orchestration are the two things CSS cannot do. Measured tree-shaken cost ~20.6 KB gzip — versus 40.9 KB for `motion/react`, which would also force `'use client'` across ~10 files. Loaded via **dynamic import after mount**, so First Load JS is untouched (~175 KB, still the framework floor). If the chunk fails, everything degrades to static final states. |
+
+| Still excluded | Reason |
+|---|---|
+| `motion` / `framer-motion` | 40.9 KB + client-boundary sprawl, for easing CSS already has. |
 | `lucide-react` | ~12 icons copied as inline SVGs — 0KB and exact `stroke-width` control, which matters in soft UI. |
 | `next-themes` | No release since 2025-03-11. A ~20-line blocking inline script is better and avoids theme flash. |
+| `lenis` | Smooth-scroll hijacking breaks `scroll-behavior`, `scroll-padding-top`, and owns reduced-motion handling. A downgrade. |
 | Any 3D/WebGL lib | The most worn-out portfolio cliché; neumorphism already sells depth. |
 | `clsx` | Template literals. |
 

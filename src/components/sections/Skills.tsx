@@ -6,7 +6,10 @@ import { skillGroups } from "@/content/skills";
 export function Skills() {
   return (
     <Section id="skills" label="/03" title="Technical Skills">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div
+        data-anime="stagger"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
+      >
         {skillGroups.map((group, gi) => (
           <NeuCard key={group.id} className="flex flex-col gap-4">
             <h3

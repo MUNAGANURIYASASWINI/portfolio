@@ -7,10 +7,16 @@ export function Impact() {
   return (
     <Section id="impact" label="/01" title="Impact">
       {/* The six approved numbers. Nothing here is extrapolated — every
-          value appears verbatim in the resume. */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {impactMetrics.map((m, i) => (
-          <NeuMetric key={m.label} metric={m} index={i} />
+          value appears verbatim in the resume.
+          data-anime="stagger": the motion island springs these in with
+          animejs; children carry no data-reveal so the two systems never
+          double-animate. Without JS they render statically. */}
+      <div
+        data-anime="stagger"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {impactMetrics.map((m) => (
+          <NeuMetric key={m.label} metric={m} />
         ))}
       </div>
 

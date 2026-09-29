@@ -3,7 +3,6 @@ import type { Metric } from "@/types/content";
 
 type NeuMetricProps = {
   metric: Metric;
-  index?: number;
 };
 
 /**
@@ -19,13 +18,11 @@ type NeuMetricProps = {
  * nothing: the semantic hue lives on the ICON, where it is redundant
  * third-channel reinforcement behind the icon shape and the text label.
  */
-export function NeuMetric({ metric, index = 0 }: NeuMetricProps) {
+export function NeuMetric({ metric }: NeuMetricProps) {
   return (
-    <div
-      data-reveal
-      style={{ "--reveal-i": index } as React.CSSProperties}
-      className="neu-inset flex flex-col gap-2 rounded-lg p-4"
-    >
+    // No data-reveal here: the parent grid's data-anime="stagger" owns
+    // this tile's entrance via animejs.
+    <div className="neu-inset flex flex-col gap-2 rounded-lg p-4">
       <span
         className={`grid h-8 w-8 shrink-0 place-items-center rounded-full bg-base ${
           metric.kind === "volume"

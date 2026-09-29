@@ -23,7 +23,10 @@ export function Engagements() {
         November 2025 and August 2026. Select one for the full case study.
       </p>
 
-      <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div
+        data-anime="stagger"
+        className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-2"
+      >
         {engagements.map((e, i) => (
           <NeuCard
             key={e.slug}

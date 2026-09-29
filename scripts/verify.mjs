@@ -125,10 +125,47 @@ const kb = firstLoad / 1024;
 // Measured floor for Next.js 16 App Router is ~173 KB gzip
 // (react-dom + scheduler + polyfill + runtime). The application's own
 // share is ~7 KB. The budget guards against REGRESSION, not the floor.
+//
+// animejs (4.5.0) is intentionally EXCLUDED from this number: it loads
+// via dynamic import after mount, so it never appears in the initial
+// script tags. Its weight is reported separately below, informational.
 const BUDGET_KB = 185;
 kb <= BUDGET_KB
   ? ok(`First Load JS ${kb.toFixed(1)} KB gzip (budget ${BUDGET_KB} KB, framework floor ~173)`)
   : fail(`First Load JS ${kb.toFixed(1)} KB gzip exceeds ${BUDGET_KB} KB budget`);
+
+const totalKb =
+  [...gzCache.values()].reduce((sum, n) => sum + n, 0) / 1024;
+
+// Turbopack hashes chunk filenames, so the anime chunk is found by
+// CONTENT: it must contain the `animejs` import specifier plus engine
+// internals (e.g. settlingDuration from the spring physics module).
+// My own source strings (stagger, outExpo) are NOT sufficient markers
+// — they also appear in the First Load motion-island chunk.
+const jsFiles = walk(jsDir).filter((f) => f.endsWith(".js"));
+const animeChunks = jsFiles.filter((f) => {
+  const code = readFileSync(f, "utf8");
+  // Case-insensitive: the bundler rewrites the import specifier's casing
+  // (minified output contains `AnimeJS`, not `animejs`).
+  return /animejs/i.test(code) && code.includes("settlingDuration");
+});
+if (animeChunks.length === 0) {
+  fail("animejs chunk missing from build output");
+} else {
+  const animeKb =
+    animeChunks.reduce((sum, f) => sum + (gzCache.get(f.split(/[\\/]/).pop()) ?? 0), 0) /
+    1024;
+  const inFirstLoad = animeChunks.some((f) =>
+    refs.includes(f.split(/[\\/]/).pop()),
+  );
+  console.log(
+    `  INFO  total JS ${totalKb.toFixed(1)} KB gzip` +
+      ` (animejs async chunk ~${animeKb.toFixed(1)} KB)`,
+  );
+  inFirstLoad
+    ? fail("animejs leaked into First Load — the dynamic import is not splitting")
+    : ok("animejs stays out of First Load (dynamic import splits correctly)");
+}
 
 console.log("\n=== 7. Accessibility scaffolding ===");
 home.includes("Skip to main content")

@@ -22,7 +22,7 @@ type NeuTagProps = {
 export function NeuTag({ children, className = "", accent = false }: NeuTagProps) {
   return (
     <span
-      className={`neu-inset tag-mono inline-flex items-center rounded-pill px-2.5 h-6 ${
+      className={`neu-inset tag tag-mono inline-flex items-center rounded-pill px-2.5 h-6 ${
         accent ? "text-accent-text" : "text-body"
       } ${className}`}
     >

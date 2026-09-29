@@ -50,6 +50,7 @@ export function ContactActions() {
           <button
             type="button"
             data-copy
+            data-magnetic=""
             onClick={copyEmail}
             aria-label="Copy email address"
             className="neu-sm inline-flex min-h-11 shrink-0 cursor-pointer items-center
